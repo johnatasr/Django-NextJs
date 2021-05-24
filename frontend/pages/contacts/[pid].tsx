@@ -93,7 +93,7 @@ const Divider = styled("hr")`
 
 const ContactPage = ({ pid }: ContactPageProps) => {
   
-  const [ contact, setContact ] = useState();
+  const [ contact, setContact ] : any = useState();
 
 
   useEffect(() => {

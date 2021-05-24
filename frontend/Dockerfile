@@ -1,10 +1,31 @@
-FROM node:12 as compile
-WORKDIR /usr/src
-COPY . /usr/src
-RUN npm i && npm run build
+FROM node:alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json ./
+RUN yarn install --frozen-lockfile
 
-FROM nginx:latest
-WORKDIR /usr/src
-COPY --from=compile /usr/src/build /usr/share/nginx/html
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
+FROM node:alpine AS builder
+WORKDIR /app
+COPY . .
+COPY --from=deps /app/node_modules ./node_modules
+RUN yarn install --ignore-scripts --prefer-offline
+
+FROM node:alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+USER nextjs
+
+EXPOSE 3000
+
+CMD ["yarn", "run", "dev"]
+

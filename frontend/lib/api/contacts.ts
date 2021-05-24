@@ -19,7 +19,7 @@ const ContactsAPI = {
     }
   },
 
-  delete: (contactId: number, token: string) =>
+  delete: (contactId: any, token: string) =>
     axios.delete(`${SERVER_BASE_URL}/contacts/${contactId}/delete`, {
       headers: {
         Authorization: `JWT ${token}`,

@@ -36,6 +36,7 @@ const ContactList = () => {
 
   useEffect(() => {
     async function getContacts() {
+      
       const token = getToken();
 
       // if (!token) {
@@ -44,6 +45,8 @@ const ContactList = () => {
       // };
 
       const response = await ContactsApi.all(token)
+
+      if(!response) Router.push('/user/login');
 
       if (!response.data) return setContacts([])
 

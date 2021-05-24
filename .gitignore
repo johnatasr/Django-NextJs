@@ -3,5 +3,5 @@ backend/configs/.env
 backend/contacts/__pycache__
 backend/38
 backend/venv
-
+node_modules
 frontend/.next

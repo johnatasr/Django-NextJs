@@ -1,8 +1,6 @@
 FROM python:3.8-slim
 
-ENV PYTHONUNBUFFERED 1 \
-    PIP_DEFAULT_TIMEOUT=100 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+ENV PYTHONUNBUFFERED 1 
 
 RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 WORKDIR /home/user/app

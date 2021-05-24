@@ -22,7 +22,7 @@ const ContactActions = ({ contact }) => {
 
     await ContactApi.delete(pid, currentUser?.tokenAccess);
     trigger(`${SERVER_BASE_URL}/contacts/${pid}/delete`);
-    Router.push(`/`);
+    Router.push(`/`, "/", { shallow: false });
   };
 
   return (

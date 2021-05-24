@@ -1,6 +1,6 @@
 // export const SERVER_BASE_URL = `https://conduit.productionready.io/api`;
 
-export const SERVER_BASE_URL = `http://backend:8000`;
+export const SERVER_BASE_URL = `http://localhost:8000`;
 
 
 export const APP_NAME = `ContactList`;

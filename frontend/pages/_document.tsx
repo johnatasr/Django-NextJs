@@ -29,35 +29,12 @@ class MyDocument extends Document<IProps> {
           <meta name="google" content="notranslate" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="keywords" content="nextjs, realworld" />
           <meta property="og:locale" content="en_US" />
-          <meta property="og:site_name" content="next-realworld" />
-          <meta property="og:title" content="Next.js realworld example app" />
           <meta
             property="og:description"
-            content="Next.js + SWR codebase containing realworld examples"
           />
-          <meta property="og:url" content="https://next-realworld.now.sh/" />
           <meta
             property="og:image"
-            content="https://next-realworld.now.sh/images/share-link.png"
-          />
-          <meta property="twitter:card" content="next-realworld" />
-          <meta
-            property="twitter:url"
-            content="https://next-realworld.now.sh/"
-          />
-          <meta
-            property="twitter:title"
-            content="Next.js realworld example app"
-          />
-          <meta
-            property="twitter:description"
-            content="Next.js + SWR codebase containing realworld examples"
-          />
-          <meta
-            property="twitter:image"
-            content="https://machimban.com/images/talk-link.jpg"
           />
           <meta name="msapplication-TileColor" content="#000" />
           <meta
@@ -140,11 +117,7 @@ class MyDocument extends Document<IProps> {
               __html: `{
               "@context": "http://schema.org/",
               "@type": "Organization",
-              "url": "https://next-realworld.now.sh/",
-              "logo": "https://next-realworld.now.sh/images/share-link.png",
               "sameAs": [
-                "https://realworld.io",
-                "https://medium.com/@ericsimons/introducing-realworld-6016654d36b5",
               ],
             }`,
             }}
