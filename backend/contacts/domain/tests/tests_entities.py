@@ -64,8 +64,8 @@ class UserEntityTestCase(TestCase):
 
     def test_repr_class_po(self):
 
-        repr1: str = "Entity: User<name: Joao>"
-        repr2: str = "Entity: User<name: Pedro>"
+        repr1: str = "Entity: Contact<name: Joao>"
+        repr2: str = "Entity: Contact<name: Pedro>"
 
         self.assertEquals(self.user_one.__str__(), repr1)
         self.assertEquals(self.user_two.__str__(), repr2)
@@ -89,27 +89,26 @@ class ListUsersEntityTestCase(TestCase):
         )
         self.user_two.id = 2
 
-        lu = list()
-        self.list_users = ListContacts(lu)
-        self.list_users.add_user_to_list(self.user_one)
-        self.list_users.add_user_to_list(self.user_two)
+        self.list_contacts = ListContacts(contacts=list(), user_manager_id=1)
+        self.list_contacts.add_user_to_list(self.user_one)
+        self.list_contacts.add_user_to_list(self.user_two)
 
     def test_isistance_object(self):
-        self.assertIsInstance(self.list_users, ListContacts)
-        self.assertIsInstance(self.list_users.users, list)
+        self.assertIsInstance(self.list_contacts, ListContacts)
+        self.assertIsInstance(self.list_contacts.contacts, list)
 
     def test_atributes_values_user(self):
 
-        self.assertEquals(len(self.list_users.users), 2)
-        self.assertEquals(self.list_users.users[0].id, 1)
-        self.assertEquals(self.list_users.users[1].id, 2)
+        self.assertEquals(len(self.list_contacts.contacts), 2)
+        self.assertEquals(self.list_contacts.contacts[0].id, 1)
+        self.assertEquals(self.list_contacts.contacts[1].id, 2)
 
     def test_atributes_type_user(self):
-        self.assertIsInstance(self.list_users.users, list)
-        self.assertIsInstance(self.list_users.users[0], object)
-        self.assertIsInstance(self.list_users.users[1], object)
+        self.assertIsInstance(self.list_contacts.contacts, list)
+        self.assertIsInstance(self.list_contacts.contacts[0], object)
+        self.assertIsInstance(self.list_contacts.contacts[1], object)
 
     def test_repr_class_po(self):
         repr_user: str = "Entity: <ListContacts>"
 
-        self.assertEquals(self.list_users.__str__(), repr_user)
+        self.assertEquals(self.list_contacts.__str__(), repr_user)

@@ -12,14 +12,17 @@ class ContactsViewSetTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
 
-        self.user = User.objects.create_superuser('admin', 'admin@admin.com', 'admin123')
+        self.username = 'admin'
+        self.password = 'admin123'
+
+        self.user = User.objects.create_superuser(self.username , 'admin@admin.com', self.password)
         self.user.is_active = True
         self.user.save()
 
         response = self.client.post('/auth/token/obtain/', {'username': self.username, 'password': self.password},
                                     format='json')
 
-        self.token = response['token']
+        self.token = response.data['access']
 
         self.data: dict = {
             "name": "john34",
@@ -31,32 +34,36 @@ class ContactsViewSetTests(APITestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_get_without_param(self):
-        response = self.client.get('/contacts', HTTP_AUTHORIZATION="Token "+ self.token.key)
+        response = self.client.get('/contacts', HTTP_AUTHORIZATION="JWT "+ self.token)
         self.assertEqual(response.status_code, 200)
 
     def test_post_with_data(self):
         self.client.force_login(user=self.user)
-        response = self.client.post('/contacts', data=self.data, format="json", HTTP_AUTHORIZATION="Token "+ self.token.key)
-        self.assertEqual(response.status_code, 200)
+        response = self.client.post('/contacts', data=self.data, format="json", HTTP_AUTHORIZATION="JWT "+ self.token)
+        self.assertEqual(response.status_code, 201)
 
     def test_post_without_data(self):
         self.client.force_login(user=self.user)
-        response = self.client.post('/contacts', data={}, format="json", HTTP_AUTHORIZATION="Token "+ self.token.key)
+        response = self.client.post('/contacts', data={}, format="json", HTTP_AUTHORIZATION="JWT "+ self.token)
         self.assertEqual(response.status_code, 200)
 
     def test_update_with_data(self):
         self.client.force_login(user=self.user)
-        response = self.client.put('/contacts/1/update', data=self.data, format="json", HTTP_AUTHORIZATION="Token "+ self.token.key)
+        response_create = self.client.post('/contacts', data=self.data, format="json", HTTP_AUTHORIZATION="JWT " + self.token)
+        response = self.client.put(f'/contacts/{response_create.data["contact"]["id"]}/update', data={
+            "name": "john35",
+            "phoneNumber": "8598989899"
+        }, format="json", HTTP_AUTHORIZATION="JWT "+ self.token)
         self.assertEqual(response.status_code, 200)
 
     def test_update_without_data(self):
         self.client.force_login(user=self.user)
-        response = self.client.put('/contacts/1/update', data={}, format="json", HTTP_AUTHORIZATION="Token "+ self.token.key)
+        response = self.client.put('/contacts/1/update', data={}, format="json", HTTP_AUTHORIZATION="JWT "+ self.token)
         self.assertEqual(response.status_code, 200)
 
     def test_delete(self):
         self.client.force_login(user=self.user)
-        response = self.client.delete('/contacts/1/delete', HTTP_AUTHORIZATION="Token "+ self.token.key)
+        response = self.client.delete('/contacts/1/delete', HTTP_AUTHORIZATION="JWT "+ self.token)
         self.assertEqual(response.status_code, 200)
 
 
@@ -76,11 +83,11 @@ class UserApiAuthTestCase(APITestCase):
         self.user.is_active = False
         self.user.save()
 
-        response = self.client.post('/users/token/obtain/', {'username': self.username, 'password': self.password}, format='json')
+        response = self.client.post('/auth/token/obtain/', {'username': self.username, 'password': self.password}, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.user.is_active = True
         self.user.save()
 
-        response = self.client.post('/users/token/obtain/', {'username': self.username, 'password': self.password}, format='json')
+        response = self.client.post('/auth/token/obtain/', {'username': self.username, 'password': self.password}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

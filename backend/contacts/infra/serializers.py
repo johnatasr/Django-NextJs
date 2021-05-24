@@ -55,12 +55,27 @@ class ListContactsSerializer(ISerializer):
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
+    username: str
+    useremail: str
+
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
         token['id'] = user.id
 
         return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        refresh = self.get_token(self.user)
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+        data['username'] = self.user.username
+        data['email'] = self.user.email
+
+        return data
 
 
 class CustomUserSerializer(serializers.ModelSerializer):

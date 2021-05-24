@@ -42,7 +42,6 @@ class CreateContactIteratorTestCase(TestCase):
         self.assertIsInstance(self.iterator.validator, object)
         self.assertIsInstance(self.iterator.repo, ContactsRepo)
         self.assertIsInstance(self.iterator.serializer, object)
-        self.assertIsInstance(self.iterator.user_entity, object)
 
     def test_set_params(self):
         self.iterator.set_params(contact_payload=self.data, user_id=self.user.id)
@@ -183,19 +182,19 @@ class ShowContactIteratorTestCase(TestCase):
         self.assertEquals(self.iterator.contact_id, 1)
 
     def test_execute(self):
-        ContactModel.objects.create(
+        contac = ContactModel.objects.create(
             name="Joao",
             phone_number="859999999")
 
-        result = self.iterator.set_params(contact_id=1).execute()
+        result = self.iterator.set_params(contact_id=contac.id).execute()
         self.assertIsInstance(result, dict)
 
     def test_get_contact_by_id(self):
-        ContactModel.objects.create(
+        contact = ContactModel.objects.create(
             name="Joao",
             phone_number="859999999")
 
-        result = self.iterator.set_params(contact_id=1).get_contact_by_id(1)
+        result = self.iterator.set_params(contact_id=contact.id).get_contact_by_id(contact.id)
         self.assertIsInstance(result, Contact)
 
 
@@ -229,20 +228,20 @@ class UpdateContactIteratorTestCase(TestCase):
         self.assertIsInstance(self.iterator.contact_payload, dict)
 
     def test_execute(self):
-        ContactModel.objects.create(
+        contact = ContactModel.objects.create(
             name="Joao",
             phone_number="859999999")
 
-        result = self.iterator.set_params(contact_payload=self.data, contact_id=1).execute()
+        result = self.iterator.set_params(contact_payload=self.data, contact_id=contact.id).execute()
         self.assertIsInstance(result, dict)
 
     def test_update_contact_by_id(self):
-        ContactModel.objects.create(
+        contact = ContactModel.objects.create(
             name="Joao",
             phone_number="859999999")
 
-        result = self.iterator.set_params(contact_payload=self.data, contact_id=1)\
-            .update_contact_by_id(payload=self.data, contact_id=1)
+        result = self.iterator.set_params(contact_payload=self.data, contact_id=contact.id)\
+            .update_contact_by_id(payload=self.data, contact_id=contact.id)
         self.assertIsInstance(result, Contact)
 
 

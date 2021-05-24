@@ -10,6 +10,7 @@ const LoginForm = () => {
   const [errors, setErrors] = React.useState([]);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [senhaCheck, setSenhaCheck] = React.useState("Digite sua senha");
 
   const handleEmailChange = React.useCallback(
     (e) => setEmail(e.target.value),
@@ -24,6 +25,11 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
 
+    if (password.length < 8) {
+      setSenhaCheck("Senha deve ser maior que 8 caracteres")
+      return {};
+    }
+
     try {
       const { data, status } = await UserAPI.login(email, password);
 
@@ -32,7 +38,12 @@ const LoginForm = () => {
       }
 
       if (data) {
-        window.localStorage.setItem("user", JSON.stringify({ tokenAccess: data.access, refreshToken: data.refresh, username: data.username }));
+        window.localStorage.setItem("user", JSON.stringify({ 
+          tokenAccess: data.access, 
+          refreshToken: data.refresh, 
+          username: data.username,
+          email: data.email 
+        }));
         mutate("user", data?.user);
         Router.push("/");
       }
@@ -40,13 +51,12 @@ const LoginForm = () => {
       console.error(error);
     } finally {
       setLoading(false);
+      setSenhaCheck("Digite sua senha");
     }
   };
 
   return (
     <>
-      <ListErrors errors={errors} />
-
       <form onSubmit={handleSubmit}>
         <fieldset>
           <fieldset className="form-group">
@@ -63,7 +73,7 @@ const LoginForm = () => {
             <input
               className="form-control form-control-lg"
               type="password"
-              placeholder="Digite sua senha"
+              placeholder={senhaCheck}
               value={password}
               onChange={handlePasswordChange}
             />

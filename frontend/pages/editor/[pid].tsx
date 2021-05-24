@@ -8,6 +8,7 @@ import ContactsApi from "../../lib/api/contacts";
 import { SERVER_BASE_URL } from "../../lib/utils/constant";
 import editorReducer from "../../lib/utils/editorReducer";
 import storage from "../../lib/utils/storage";
+import InputMask from "react-input-mask"
 
 const UpdateContactEditor = ({ contact: initialContact }) => {
   const initialState = {
@@ -87,13 +88,12 @@ const UpdateContactEditor = ({ contact: initialContact }) => {
                 </fieldset>
 
                 <fieldset className="form-group">
-                  <input
-                    className="form-control form-control-lg"
-                    type="text"
-                    placeholder={contactPosting.phoneNumber}
+                  <InputMask 
+                    className="form-control form-control-lg" 
+                    mask="(99) 99999 9999" 
+                    placeholder="Adicione o número..."
                     value={phoneNumber}
-                    onChange={handlePhoneNumber}
-                  />
+                    onChange={handlePhoneNumber} />
                 </fieldset>
 
 

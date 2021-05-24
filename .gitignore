@@ -1,5 +1,7 @@
 backend/configs/__pycache__
 backend/configs/.env
 backend/contacts/__pycache__
+backend/38
+backend/venv
 
 frontend/.next

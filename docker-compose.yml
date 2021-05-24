@@ -29,3 +29,15 @@ services:
     depends_on:
       - redis
       - db
+      
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    ports:
+      - "3000:80"
+    environment:
+        IN_DOCKER: 1

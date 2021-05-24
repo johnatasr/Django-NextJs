@@ -11,6 +11,7 @@ const RegisterForm = () => {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [senhaCheck, setSenhaCheck] = React.useState("Senha");
 
   const handleUsernameChange = React.useCallback(
     (e) => setUsername(e.target.value),
@@ -29,6 +30,13 @@ const RegisterForm = () => {
     e.preventDefault();
     setLoading(true);
 
+    if (password.length < 8) {
+      setPassword("")
+      setLoading(false)
+      setSenhaCheck("Senha deve ser maior que 8 caracteres")
+      return {};
+    }
+
     try {
       const { data, status } = await UserAPI.register(
         username,
@@ -38,11 +46,8 @@ const RegisterForm = () => {
       if (status !== 200 && data?.errors) {
         setErrors(data.errors);
       }
-      if (data?.user) {
-        window.localStorage.setItem("user", JSON.stringify(data.user));
-        mutate("user", data.user);
-        Router.push("/");
-      }
+      Router.push("/user/login");
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -80,7 +85,7 @@ const RegisterForm = () => {
             <input
               className="form-control form-control-lg"
               type="password"
-              placeholder="Senha"
+              placeholder={senhaCheck}
               value={password}
               onChange={handlePasswordChange}
             />

@@ -77,6 +77,7 @@ const Navbar = () => {
   const setPage = usePageDispatch();
   const { data: currentUser } = useSWR("user", storage);
   const isLoggedIn = checkLogin(currentUser);
+  console.log(isLoggedIn)
 
   const handleClick = React.useCallback(() => setPage(0), []);
 

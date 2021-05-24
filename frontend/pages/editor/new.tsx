@@ -6,6 +6,7 @@ import ListErrors from "../../components/common/ListErrors";
 import ContactsApi from "../../lib/api/contacts";
 import storage from "../../lib/utils/storage";
 import editorReducer from "../../lib/utils/editorReducer";
+import InputMask from "react-input-mask"
 
 
 const PublishContactEditor = () => {
@@ -37,14 +38,18 @@ const PublishContactEditor = () => {
       return {}
     }
 
+    console.log(currentUser)
+
     const { data, status } = await ContactsApi.create(
-      posting,
-      currentUser?.token
+      name, phoneNumber,
+      currentUser?.tokenAccess
     );
 
     setLoading(false);
 
-    if (status !== 200) {
+    if (status == 401) Router.push("/user/login");
+
+    if (status !== 201) {
       setErrors(data.errors);
     }
 
@@ -70,13 +75,12 @@ const PublishContactEditor = () => {
                 </fieldset>
 
                 <fieldset className="form-group">
-                  <input
-                    className="form-control form-control-lg"
-                    type="text"
-                  placeholder="Adicione o número. Ex: (85) 9999-9999"
+                  <InputMask 
+                    className="form-control form-control-lg" 
+                    mask="(99) 99999 9999" 
+                    placeholder="Adicione o número..."
                     value={phoneNumber}
-                    onChange={handlePhoneNumber}
-                  />
+                    onChange={handlePhoneNumber} />
                 </fieldset>
            
                 <button

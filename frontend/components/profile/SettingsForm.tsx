@@ -33,37 +33,37 @@ const SettingsForm = () => {
   };
 
   const submitForm = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+    // e.preventDefault();
+    // setLoading(true);
 
-    const user = { ...userInfo };
+    // const user = { ...userInfo };
 
-    if (!user.password) {
-      delete user.password;
-    }
+    // if (!user.password) {
+    //   delete user.password;
+    // }
 
-    const { data, status } = await axios.put(
-      `${SERVER_BASE_URL}/user`,
-      JSON.stringify({ user }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${currentUser?.token}`,
-        },
-      }
-    );
+    // const { data, status } = await axios.put(
+    //   `${SERVER_BASE_URL}/user`,
+    //   JSON.stringify({ user }),
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Token ${currentUser?.token}`,
+    //     },
+    //   }
+    // );
 
-    setLoading(false);
+    // setLoading(false);
 
-    if (status !== 200) {
-      setErrors(data.errors.body);
-    }
+    // if (status !== 200) {
+    //   setErrors(data.errors.body);
+    // }
 
-    if (data?.user) {
-      window.localStorage.setItem("user", JSON.stringify(data.user));
-      mutate("user", data.user);
-      Router.push(`/`);
-    }
+    // if (data?.user) {
+    //   window.localStorage.setItem("user", JSON.stringify(data.user));
+    //   mutate("user", data.user);
+    //   Router.push(`/`);
+    // }
   };
 
   return (
@@ -77,6 +77,7 @@ const SettingsForm = () => {
               type="text"
               placeholder="Username"
               value={userInfo.username}
+              disabled={true}
               onChange={updateState("username")}
             />
           </fieldset>
@@ -87,6 +88,7 @@ const SettingsForm = () => {
               type="email"
               placeholder="Email"
               value={userInfo.email}
+              disabled={true}
               onChange={updateState("email")}
             />
           </fieldset>
@@ -97,6 +99,7 @@ const SettingsForm = () => {
               type="password"
               placeholder="New Password"
               value={userInfo.password}
+              disabled={true}
               onChange={updateState("password")}
             />
           </fieldset>
@@ -105,7 +108,7 @@ const SettingsForm = () => {
             className="btn btn-lg btn-primary pull-xs-right"
             type="submit"
             style={{background: "#5c78b8"}}
-            disabled={isLoading}
+            disabled={true}
           >
             Atualizar configurações
           </button>

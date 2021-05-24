@@ -22,7 +22,7 @@ class ContactModelsTest(TestCase):
             name="Joao",
             phone_number="859999999")
 
-        user_filtered = Contact.objects.filter(id=1).first()
+        user_filtered = Contact.objects.filter(id=3).first()
         self.assertEquals(contact.name, user_filtered.name)
 
     def test_update_contact(self):
@@ -30,26 +30,26 @@ class ContactModelsTest(TestCase):
             name="Joao",
             phone_number="859999999")
 
-        contact = Contact.objects.filter(id=1).first()
+        contact = Contact.objects.filter(id=4).first()
 
         contact.name = "Pedro"
-        contact.email = "pedro@pedro.com"
+        contact.phone_number = "8588888888"
         contact.save()
 
-        contact = Contact.objects.filter(id=1).first()
+        contact = Contact.objects.filter(id=4).first()
 
         self.assertEquals(contact.name, "Pedro")
-        self.assertEquals(contact.email, "pedro@pedro.com")
+        self.assertEquals(contact.phone_number, "8588888888")
 
     def test_delete_contact(self):
         Contact.objects.create(
             name="Joao",
             phone_number="859999999")
 
-        contact = Contact.objects.filter(id=1).first()
+        contact = Contact.objects.filter(id=2).first()
         contact.delete()
 
-        contact = Contact.objects.filter(id=1).first()
+        contact = Contact.objects.filter(id=2).first()
 
         self.assertEquals(contact, None)
 
@@ -76,10 +76,12 @@ class ListContactsModelsTest(TestCase):
             phone_number="858888888")
 
         list_contacts = ListContacts.objects.create(user_manager=self.user)
-        list_contacts.add(contact1)
-        list_contacts.add(contact2)
+        list_contacts.contacts.add(contact1)
+        list_contacts.contacts.add(contact2)
         list_contacts.save()
 
-        self.assertEquals(list_contacts.exists(), True)
+        list_contacts = ListContacts.objects.create(user_manager=self.user)
+
+        self.assertIsInstance(list_contacts, ListContacts)
 
 

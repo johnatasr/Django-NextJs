@@ -15,7 +15,7 @@ class ContactsFactoryTestCase(TestCase):
             name="Joao",
             phone_number="859999999")
 
-        Contact.objects.create(
+        self.contact = Contact.objects.create(
             name="Pedro",
             phone_number="858888888")
 
@@ -28,12 +28,12 @@ class ContactsFactoryTestCase(TestCase):
         self.user = User.objects.create_user("johnatas", "johnatas@admin.com", "John123*")
 
     def test_create_get_iterator_with_param(self):
-        msg = self.factory.create_get_iterator(user_id=self.user.id, id_params=1)
+        msg = self.factory.create_get_iterator(user_id=self.user.id, id_params=self.contact.id)
         self.assertIsInstance(msg, dict)
 
     def test_create_get_iterator(self):
         msg = self.factory.create_get_iterator(user_id=self.user.id)
-        self.assertIsInstance(msg, dict)
+        self.assertIsInstance(msg, str)
 
     def test_create_post_iterator(self):
         msg = self.factory.create_post_iterator(
@@ -48,7 +48,7 @@ class ContactsFactoryTestCase(TestCase):
             data={
                 "name": "john34",
                 "phoneNumber": "8598989899"
-            }, contact_id=1)
+            }, contact_id=self.contact.id)
         self.assertIsInstance(msg, dict)
 
     def test_create_delete_iterator(self):

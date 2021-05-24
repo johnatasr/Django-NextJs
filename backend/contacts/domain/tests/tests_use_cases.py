@@ -15,20 +15,20 @@ class UseCasesTestCase(TestCase):
 
     def test_cannot_instantiate_create_contact_case(self):
         with self.assertRaises(TypeError):
-            create_contact.CreateUserCase()
+            create_contact.CreateContactCase()
 
     def test_cannot_instantiate_update_contact_case(self):
         with self.assertRaises(TypeError):
-            update_contact.UpdateUserCase()
+            update_contact.UpdateContactCase()
 
     def test_cannot_instantiate_list_contacts_case(self):
         with self.assertRaises(TypeError):
-            list_contacts.ListUsersCase()
+            list_contacts.ListContactsCase()
 
     def test_cannot_instantiate_delete_contact_case(self):
         with self.assertRaises(TypeError):
-            delete_contact.DeleteUserCase()
+            delete_contact.DeleteContactCase()
 
     def test_cannot_instantiate_show_contact_case(self):
         with self.assertRaises(TypeError):
-            show_contact.ShowUserCase()
+            show_contact.ShowContactUseCase()

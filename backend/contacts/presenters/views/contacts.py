@@ -13,6 +13,7 @@ from contacts.presenters.factory import ContactsFactory
 from contacts.presenters.helpers import clear_cache
 from configs.exceptions import ContactsException
 
+from django.core.cache import cache
 
 # Register your viewsets here.
 class ContactsViewSet(viewsets.GenericViewSet):
@@ -24,7 +25,7 @@ class ContactsViewSet(viewsets.GenericViewSet):
     http_method_names = ["get", "post", "put", "delete"]
 
     @action(methods=["GET"], detail=False, url_path="contacts/(?P<id>[0-9]+)/search")
-    @method_decorator(cache_page(60 * 2))
+    @method_decorator(cache_page(30 * 2))
     def get(self, request, id=None) -> Response:
         """
            Endpoint to search a list of contacts or a specific contact by id
@@ -50,6 +51,7 @@ class ContactsViewSet(viewsets.GenericViewSet):
            :return: dict
         """
         try:
+            cache.clear()
             results = self.factory.create_post_iterator(data=request.data, user_id=request.user.id)
             return Response(results, status=HTTP_201_CREATED)
         except Exception as error:
@@ -67,6 +69,7 @@ class ContactsViewSet(viewsets.GenericViewSet):
            :return: dict
         """
         try:
+            cache.clear()
             results = self.factory.create_update_iterator(data=request.data, contact_id=id)
             return Response(results, status=HTTP_200_OK)
         except Exception as error:
@@ -84,6 +87,7 @@ class ContactsViewSet(viewsets.GenericViewSet):
            :return: dict
         """
         try:
+            cache.clear()
             results = self.factory.create_delete_iterator(contact_id=id)
             return Response(results, status=HTTP_200_OK)
         except Exception as error:

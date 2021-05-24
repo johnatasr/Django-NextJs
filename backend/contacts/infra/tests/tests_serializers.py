@@ -21,7 +21,7 @@ class ContactSerializerTestCase(TestCase):
 
     def test_init(self):
         serializer = self.serializer(
-            user=self.contact, msg="testing serializers"
+            contact=self.contact, msg="testing serializers"
         )
         self.assertIsInstance(serializer, ContactSerializer)
         self.assertIsInstance(serializer.contact, Contact)
@@ -29,19 +29,19 @@ class ContactSerializerTestCase(TestCase):
 
     def test_mount_payload(self):
         serializer = self.serializer(
-            user=self.contact, msg="testing serializers"
+            contact=self.contact, msg="testing serializers"
         )
         result = serializer.mount_payload()
 
         self.assertIsInstance(result, dict)
         self.assertEquals(result["msg"], "testing serializers")
-        self.assertEquals(result["user"]["id"], 1)
-        self.assertEquals(result["user"]["name"], "Joao")
-        self.assertEquals(result["user"]["phoneNumber"], "859999999")
+        self.assertEquals(result["contact"]["id"], 1)
+        self.assertEquals(result["contact"]["name"], "Joao")
+        self.assertEquals(result["contact"]["phoneNumber"], "859999999")
 
     def test_create_message(self):
         serializer = self.serializer(
-            user=self.contact, msg="testing serializers"
+            contact=self.contact, msg="testing serializers"
         )
         result = serializer.create_message()
         self.assertIsInstance(result, dict)
@@ -65,7 +65,7 @@ class ListContactsSerializerTestCase(TestCase):
         )
         self.contact_two.id = 2
 
-        self.list_contacts = ListContacts(contacts=list())
+        self.list_contacts = ListContacts(contacts=list(), user_manager_id=1)
         self.list_contacts.add_user_to_list(self.contact_one)
         self.list_contacts.add_user_to_list(self.contact_two)
 

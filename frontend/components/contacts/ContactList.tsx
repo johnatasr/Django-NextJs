@@ -37,19 +37,25 @@ const ContactList = () => {
   useEffect(() => {
     async function getContacts() {
       const token = getToken();
+
+      // if (!token) {
+      //   Router.push('/user/login') 
+      //   return {} 
+      // };
+
       const response = await ContactsApi.all(token)
 
-      setStatus(response.status)
+      if (!response.data) return setContacts([])
 
       const { contacts, contactsCount } = response.data;
-      // setPageCount(contactsCount);
+      setStatus(response.status)
       setCountContacts(contactsCount)
       setContacts(contacts)
 
       return contacts
     }
     getContacts();
-  }, [contacts])
+  }, [])
 
   if (status === 401)   Router.push('/user/login');
 

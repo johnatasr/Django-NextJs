@@ -50,7 +50,7 @@ const ContactsAPI = {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${encodeURIComponent(token)}`,
+          Authorization: `JWT ${encodeURIComponent(token)}`,
         },
       }
     );
@@ -60,14 +60,14 @@ const ContactsAPI = {
     };
   },
 
-  create: async (contact, token) => {
+  create: async (name: string, phoneNumber: string, token: string) => {
     const { data, status } = await axios.post(
       `${SERVER_BASE_URL}/contacts`,
-      JSON.stringify({ contact }),
+      JSON.stringify({ name: name, phoneNumber: phoneNumber }),
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
+          Authorization: `JWT ${token}`,
         },
       }
     );
