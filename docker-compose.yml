@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    restart: always
+
+  db:
+    image: "postgres:alpine"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    working_dir: /home/user/app
+    volumes:
+      - .:/home/user/app
+    ports:
+      - "8000:8000"
+    environment:
+      IN_DOCKER: 1
+    depends_on:
+      - redis
+      - db
