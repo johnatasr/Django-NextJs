@@ -20,7 +20,7 @@ const ContactsAPI = {
   },
 
   delete: (contactId: number, token: string) =>
-    axios.delete(`${SERVER_BASE_URL}/comtacts/${contactId}/delete`, {
+    axios.delete(`${SERVER_BASE_URL}/contacts/${contactId}/delete`, {
       headers: {
         Authorization: `JWT ${token}`,
       },
@@ -60,14 +60,14 @@ const ContactsAPI = {
     };
   },
 
-  create: async (article, token) => {
+  create: async (contact, token) => {
     const { data, status } = await axios.post(
-      `${SERVER_BASE_URL}/articles`,
-      JSON.stringify({ article }),
+      `${SERVER_BASE_URL}/contacts`,
+      JSON.stringify({ contact }),
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${encodeURIComponent(token)}`,
+          Authorization: `Token ${token}`,
         },
       }
     );

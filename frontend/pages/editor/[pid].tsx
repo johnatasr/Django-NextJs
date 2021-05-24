@@ -23,36 +23,42 @@ const UpdateContactEditor = ({ contact: initialContact }) => {
   const router = useRouter();
   const [name, setName] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
+  const [ alert, setAlert ] = useState("");
 
   const {
     query: { pid },
   } = router;
 
   const handleName = (e) =>
-    dispatch({ name: e.target.value });
+    setName(e.target.value);
   const handlePhoneNumber = (e) =>
-    dispatch({ phoneNumber: e.target.value });
+    setPhoneNumber(e.target.value);
 
-
-  function tex(){
-    console.log(contactPosting)
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    if ((name == undefined || name == "") && (phoneNumber == undefined || phoneNumber == "")) {
+      setAlert("Todos os campos devem ser preenchidos")
+      return {}
+    }
+
     const { data, status } = await axios.put(
       `${SERVER_BASE_URL}/contacts/${pid}/update`,
-      JSON.stringify({ name: contactPosting.name, phoneNumber: contactPosting.phoneNumber }),
+      JSON.stringify({ name: name, phoneNumber: phoneNumber}),
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `JWT ${currentUser?.token}`,
+          Authorization: `JWT ${currentUser?.tokenAccess}`,
         },
       }
     );
     setLoading(false);
+
+    if (status === 401) {
+      Router.push('/user/login')
+    }
 
     if (status !== 200) {
       setErrors(data.errors);
@@ -74,8 +80,8 @@ const UpdateContactEditor = ({ contact: initialContact }) => {
                   <input
                     className="form-control form-control-lg"
                     type="text"
-                    placeholder="Nome do contato"
-                    value={contactPosting.name}
+                    placeholder={contactPosting.name}
+                    value={name}
                     onChange={handleName}
                   />
                 </fieldset>
@@ -84,8 +90,8 @@ const UpdateContactEditor = ({ contact: initialContact }) => {
                   <input
                     className="form-control form-control-lg"
                     type="text"
-                    placeholder="Qual o número de telefone ?"
-                    value={contactPosting.phoneNumber}
+                    placeholder={contactPosting.phoneNumber}
+                    value={phoneNumber}
                     onChange={handlePhoneNumber}
                   />
                 </fieldset>
@@ -102,6 +108,12 @@ const UpdateContactEditor = ({ contact: initialContact }) => {
                 </button>
               </fieldset>
             </form>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-10 offset-md-1 col-xs-12" style={{color: "red"}}>
+            <h5>{alert}</h5>
           </div>
         </div>
       </div>

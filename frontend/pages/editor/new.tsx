@@ -20,6 +20,7 @@ const PublishContactEditor = () => {
   const { data: currentUser } = useSWR("user", storage);
   const [ name, setName ] = useState();
   const [ phoneNumber, setPhoneNumber ] = useState()
+  const [ alert, setAlert ] = useState("");
 
 
   const handleName = (e) =>
@@ -30,6 +31,11 @@ const PublishContactEditor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if ((name == undefined || name == "") && (phoneNumber == undefined || phoneNumber == "")) {
+      setAlert("Todos os campos devem ser preenchidos")
+      return {}
+    }
 
     const { data, status } = await ContactsApi.create(
       posting,
@@ -84,6 +90,11 @@ const PublishContactEditor = () => {
                 </button>
               </fieldset>
             </form>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-10 offset-md-1 col-xs-12" style={{color: "red"}}>
+            <h5>{alert}</h5>
           </div>
         </div>
       </div>

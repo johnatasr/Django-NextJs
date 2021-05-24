@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import Router from "next/router";
 import React, { useMemo, useEffect, useState } from "react";
 
 import ContactPreview from "components/contacts/ContactPreview";
@@ -36,7 +37,6 @@ const ContactList = () => {
   useEffect(() => {
     async function getContacts() {
       const token = getToken();
-      console.log(token)
       const response = await ContactsApi.all(token)
 
       setStatus(response.status)
@@ -51,7 +51,10 @@ const ContactList = () => {
     getContacts();
   }, [contacts])
 
+  if (status === 401)   Router.push('/user/login');
+
   if (status !== 200) return <ErrorMessage message="Não foi possível carregar os contatos..." />;
+  
   if (!contacts) return <LoadingSpinner />;
 
   if (contacts?.length === 0) {
