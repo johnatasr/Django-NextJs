@@ -1,5 +1,4 @@
 backend/configs/__pycache__
-backend/configs/.env
 backend/contacts/__pycache__
 backend/contacts/domain/__pycache__
 backend/contacts/domain/models/__pycache__
