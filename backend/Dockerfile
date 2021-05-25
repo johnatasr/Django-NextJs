@@ -17,6 +17,8 @@ RUN apt-get purge libpq-dev -y && apt-get autoremove -y && \
 
 COPY . /home/user/app
 
+COPY ./configs/.env.example /home/user/app/configs/.env
+
 USER user
 
 CMD ["sh","-c", \

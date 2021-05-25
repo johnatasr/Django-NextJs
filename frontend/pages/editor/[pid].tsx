@@ -40,7 +40,7 @@ const UpdateContactEditor = ({ contact: initialContact }) => {
     e.preventDefault();
     setLoading(true);
 
-    if ((name == undefined || name == "") && (phoneNumber == undefined || phoneNumber == "")) {
+    if (name == undefined || name == "" || phoneNumber == undefined || phoneNumber == "") {
       setAlert("Todos os campos devem ser preenchidos")
       return {}
     }
@@ -65,7 +65,7 @@ const UpdateContactEditor = ({ contact: initialContact }) => {
       setErrors(data.errors);
     }
 
-    Router.push(`/`);
+    Router.push("/","/", { shalow: false });
   };
 
   return (

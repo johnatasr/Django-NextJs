@@ -26,8 +26,19 @@ Passos para configurar o projeto com docker:
 
 O SPA estará rodando em 'localhost:3000' e a API em localhost:8000
 
+## Como usar o Portal ?
 
-## Como usar ?
+1- Crie um usuário em "Sing up", senha deve conter mais de 8 dígitos.
+2- Faça o login com as credencias criadas.
+3- Na barra superior clique em "Novo contato" e adiocione o contato desejado
+4- Na página principal você terá todos contatos cadastrados
+5- Clicando em um contato você poderá atualizar e deletar o contato
+
+PS- Caso a lista de contatos não atualize após atualizar ou deletar, aguarde o cache limpar automaticamente após alguns segundos ou, 
+pressione CRTL + F5 para limpar o cache do navegador.
+
+
+## Como usar a API ?
 
 ### Create User 
 Endpoint responsável por criar um usuário, a senha deve ser maior que 8 digitos.

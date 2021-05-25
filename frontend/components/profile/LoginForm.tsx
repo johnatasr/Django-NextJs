@@ -2,7 +2,7 @@ import Router from "next/router";
 import React from "react";
 import { mutate } from "swr";
 
-import ListErrors from "../common/ListErrors";
+import { loginCookie } from "lib/utils/authCookies"
 import UserAPI from "../../lib/api/user";
 
 const LoginForm = () => {
@@ -44,6 +44,7 @@ const LoginForm = () => {
           username: data.username,
           email: data.email 
         }));
+        loginCookie(data.access)
         mutate("user", data?.user);
         Router.push("/");
       }

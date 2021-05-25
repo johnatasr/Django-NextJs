@@ -33,13 +33,13 @@ const MyApp = ({ Component, pageProps }) => (
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
     </Head>
-    <CacheProvider value={cache}>
-      <ContextProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ContextProvider>c
-    </CacheProvider>
+ 
+    <ContextProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ContextProvider>c
+
   </>
 );
 

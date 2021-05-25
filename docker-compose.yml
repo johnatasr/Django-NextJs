@@ -35,9 +35,9 @@ services:
       dockerfile: Dockerfile
       context: ./frontend
     working_dir: /app
-    volumes:
-      - ./frontend:/app
+    stdin_open: true
     ports:
       - "3000:3000"
     environment:
         IN_DOCKER: 1
+

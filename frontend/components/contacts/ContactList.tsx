@@ -39,16 +39,14 @@ const ContactList = () => {
       
       const token = getToken();
 
-      // if (!token) {
-      //   Router.push('/user/login') 
-      //   return {} 
-      // };
-
       const response = await ContactsApi.all(token)
 
       if(!response) Router.push('/user/login');
 
-      if (!response.data) return setContacts([])
+      if (!response.data) {
+        setContacts([])
+        return
+      }
 
       const { contacts, contactsCount } = response.data;
       setStatus(response.status)

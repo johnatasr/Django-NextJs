@@ -5,6 +5,7 @@ import useSWR, { mutate, trigger } from "swr";
 import SettingsForm from "../../components/profile/SettingsForm";
 import checkLogin from "../../lib/utils/checkLogin";
 import storage from "../../lib/utils/storage";
+import { logoutCookie } from "lib/utils/authCookies"
 
 const Settings = ({ res }) => {
   const { data: currentUser } = useSWR("user", storage);
@@ -23,6 +24,7 @@ const Settings = ({ res }) => {
   const handleLogout = async (e) => {
     e.preventDefault();
     window.localStorage.removeItem("user");
+    logoutCookie()
     mutate("user", null);
     Router.push(`/user/login`).then(() => trigger("user"));
   };

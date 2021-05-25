@@ -32,39 +32,8 @@ const SettingsForm = () => {
     setUserInfo(newState);
   };
 
-  const submitForm = async (e) => {
-    // e.preventDefault();
-    // setLoading(true);
-
-    // const user = { ...userInfo };
-
-    // if (!user.password) {
-    //   delete user.password;
-    // }
-
-    // const { data, status } = await axios.put(
-    //   `${SERVER_BASE_URL}/user`,
-    //   JSON.stringify({ user }),
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Token ${currentUser?.token}`,
-    //     },
-    //   }
-    // );
-
-    // setLoading(false);
-
-    // if (status !== 200) {
-    //   setErrors(data.errors.body);
-    // }
-
-    // if (data?.user) {
-    //   window.localStorage.setItem("user", JSON.stringify(data.user));
-    //   mutate("user", data.user);
-    //   Router.push(`/`);
-    // }
-  };
+  const submitForm = async (e) => {}
+  
 
   return (
     <React.Fragment>

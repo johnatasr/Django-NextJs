@@ -33,12 +33,10 @@ const PublishContactEditor = () => {
     e.preventDefault();
     setLoading(true);
 
-    if ((name == undefined || name == "") && (phoneNumber == undefined || phoneNumber == "")) {
+    if (name == undefined || name == "" || phoneNumber == undefined || phoneNumber == "") {
       setAlert("Todos os campos devem ser preenchidos")
       return {}
     }
-
-    console.log(currentUser)
 
     const { data, status } = await ContactsApi.create(
       name, phoneNumber,
@@ -53,7 +51,7 @@ const PublishContactEditor = () => {
       setErrors(data.errors);
     }
 
-    Router.push("/");
+    Router.push("/","/", { shalow: false });
   };
 
   return (
@@ -61,7 +59,6 @@ const PublishContactEditor = () => {
       <div className="container page">
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
-            <ListErrors errors={errors} />
             <form>
               <fieldset>
                 <fieldset className="form-group">
