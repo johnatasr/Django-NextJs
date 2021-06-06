@@ -1,6 +1,6 @@
-# ContactListTop
+# Django+NextJS
 
-Projeto desenvolvido para avaliação do processo seletivo da Horus Aeronaves. A aplicação é extremamente simples onde um usuário se cadastra e possue uma lista de contatos
+Projeto desenvolvido para testar integração do NextJs com Django via Rest. A aplicação é extremamente simples onde um usuário se cadastra e possue uma lista de contatos
 onde é possível cadastrar novos contatos, editar e exluir. A arquitetura da API é desenvolvida sobre conceitos do Clean Architecture, Clean code e DRY, onde são definidas todas 
 camadas e suas funções.
 
@@ -9,7 +9,7 @@ Docker
 Python 3.7 >
 
 ## Tecnologias
-- Django
+- Django 3
 - Django RestFramework
 - JWT Auth
 - NextJs
