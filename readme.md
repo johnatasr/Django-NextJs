@@ -1,108 +1,104 @@
 # Django+NextJS
 
-Projeto desenvolvido para testar integração do NextJs com Django via Rest. A aplicação é extremamente simples onde um usuário se cadastra e possue uma lista de contatos
-onde é possível cadastrar novos contatos, editar e exluir. A arquitetura da API é desenvolvida sobre conceitos do Clean Architecture, Clean code e DRY, onde são definidas todas 
-camadas e suas funções.
+This project was developed to test the integration of NextJs with Django via REST. The application is extremely simple, where a user registers and has a contact list where new contacts can be added, edited, and deleted. The API architecture is developed on Clean Architecture, Clean code, and DRY concepts, where all layers and their functions are defined.
 
-## Requisitos
-Docker
-Python 3.7 >
+## Requirements
+- Docker
+- Python 3.7 >
 
-## Tecnologias
+## Technologies
 - Django 3
 - Django RestFramework
 - JWT Auth
 - NextJs
 - Docker
 - Redis
-- Black
 - Postgres
 
-## Iniciando
-Passos para configurar o projeto com docker:
+## Getting Started
+Steps to set up the project with Docker:
 
-1. `cd` na pasta do projeto
+1. `cd` into the project folder
 2. `docker-compose up --build`
 
-O SPA estará rodando em 'localhost:3000' e a API em localhost:8000
+The SPA will be running on localhost:3000 and the API on localhost:8000.
 
-## Como usar o Portal ?
+## How to use the portal ?
 
-- 1- Crie um usuário em "Sing up", senha deve conter mais de 8 dígitos.
-- 2- Faça o login com as credencias criadas.
-- 3- Na barra superior clique em "Novo contato" e adiocione o contato desejado
-- 4- Na página principal você terá todos contatos cadastrados
-- 5- Clicando em um contato você poderá atualizar e deletar o contato
+- 1- Create a user in "Sign up". The password must be longer than 8 characters.
+- 2- Log in with the created credentials.
+- 3- In the top bar, click "New contact" and add the desired contact.
+- 4- On the main page, you will have all registered contacts.
+- 5- By clicking on a contact, you can update and delete it.
 
-PS- Caso a lista de contatos não atualize após atualizar ou deletar, aguarde o cache limpar automaticamente após alguns segundos ou, 
-pressione CRTL + F5 para limpar o cache do navegador.
+Note: If the contact list does not update after updating or deleting, wait for the cache to automatically clear after a few seconds or press CRTL + F5 to clear the browser cache.
 
 
-## Como usar a API ?
+## How to use the API ?
 
-### Create User 
-Endpoint responsável por criar um usuário, a senha deve ser maior que 8 digitos.
+### Create User
+Endpoint responsible for creating a user, the password must be more than 8 characters.
 
 ```
 curl --request POST \
   --url http://localhost:8000/auth/user/create/ \
   --header 'Content-Type: application/json' \
   --data '{
-	"username": "exemplo",
-	"password": "Exemplo@Senh@",
-	"email": "exemplo@exemplo.com"
+	"username": "example",
+	"password": "Example@Password",
+	"email": "example@example.com"
 }'
 
 ```
 
-Retorno -> Stauts 201
+Return -> Status 201
 
 ```
     {
-    "email": "exemplo@exemplo.com",
-    "username": "exemplo" 
+    "email": "example@example.com",
+    "username": "example" 
     }
 
 ```
 
-### Login / Obter Token 
-Endpoint responsável por fazer login, o retorno será os tokens de acesso e refresh.
+### Login / Get Token
+Endpoint responsible for logging in. The return will be the access and refresh tokens.
 
 ```
 curl --request POST \
   --url http://localhost:8000/auth/token/obtain/ \
   --header 'Content-Type: application/json' \
   --data '{
-	"username": "exemplo",
-	"password": "Exemplo@Senh@"
+	"username": "example",
+	"password": "Example@Password"
 }'
 
 ```
 
-Retorno -> Stauts 200
+Return -> Status 200
 
 ```
 {
-  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYyNDQ4ODAxNywianRpIjoiODNhZjdlNmNiZGMyNGIxZDg5Y2U5YmIzMDM1MWE1MjIiLCJ1c2VyX2lkIjoxLCJpZCI6MX0.A00Ksh6ss-hvUUM3Ehg7fzCPwNFJugYCgaes3ONgJHQ",
-  "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIxODk5NjE3LCJqdGkiOiJkZDhkMTU0ZmEwYmI0OWNhYWUxOGFkY2M0ODcyMTRjMSIsInVzZXJfaWQiOjEsImlkIjoxfQ.4-YEed5TrSUsV2nKDtIy9WW-HJGjv03dVOsc9kkwCOU",
-  "username": "exemplo",
-  "email": "Exemplo@Senh@"
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "username": "example",
+  "email": "Example@Password"
 }
+
 
 ```
 
 
-### Refresh Token 
-Endpoint responsável revalidar o token de acesso.
+### Refresh Token
+Endpoint responsible for revalidating the access token.
 
 ```
 curl --request POST \
   --url http://localhost:8000/auth/token/refresh/ \
   --header 'Content-Type: application/json' \
   --data '{
-	"refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwMDkxMzAzMywianRpIjoiMGI3ZmFiZDk0MzAxNDBmMGEyMmQ4ZTk0ZjcyNjJhZTMiLCJ1c2VyX2lkIjoxLCJpZCI6MX0.arVXagDeyYD_9IUquHVRzAN3V0dggJlTM72BAeLef0I"
-}
-	'
+	"refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwMDkxMzAzMywianRpIjoiMGI3ZmFiZDk0MzAxNDBmMGEyMmQ4ZTk0ZjcyNjJhZTMiLCJ1c2VyX2lkIjoxLCJpZ
+
 ```
 
 Retorno -> Stauts 200
@@ -115,8 +111,8 @@ Retorno -> Stauts 200
 
 ```
 
-### Listar Contatos 
-Endpoint responsável por listar todos contatos de um usuário cadastrado.
+### List Contacts
+This endpoint is responsible for listing all contacts of a registered use
 
 ```
 curl --request GET \
@@ -125,7 +121,7 @@ curl --request GET \
 
 ```
 
-Retorno -> Stauts 200
+Response -> Status 200
 
 ```
 {
@@ -145,8 +141,8 @@ Retorno -> Stauts 200
 
 ```
 
-### Obter contato
-Endpoint responsável por recuperar um contato específico pelo ID.
+### Get Contact
+This endpoint is responsible for retrieving a specific contact by ID.
 
 ```
 curl --request GET \
@@ -169,8 +165,8 @@ Retorno -> Stauts 200
 
 ```
 
-### Criar contato
-Endpoint responsável por criar um novo contato para o usuário logado.
+### Create Contact
+This endpoint is responsible for creating a new contact for the logged-in user.
 
 ```
 curl --request POST \
@@ -178,28 +174,29 @@ curl --request POST \
   --header 'Authorization: JWT <ACCESS_TOKEN>' \
   --header 'Content-Type: application/json' \
   --data '{
-      "name": "NovoContato",
+      "name": "NewContact",
       "phoneNumber": "899999999"
 }'
 
 ```
 
-Retorno -> Stauts 201
+Response -> Status 201
 
 ```
 {
   "msg": "Contact created",
   "contact": {
     "id": 10,
-    "name": "NovoContato",
+    "name": "NewContact",
     "phoneNumber": "899999999"
   }
 }
+
 ```
 
 
-### Atualizar contato
-Endpoint responsável por atualizar um contato pelo ID passado.
+### Update Contact
+This endpoint is responsible for updating a contact by the ID passed.
 
 ```
 curl --request PUT \
@@ -207,10 +204,9 @@ curl --request PUT \
   --header 'Authorization: JWT <ACCESS_TOKEN>' \
   --header 'Content-Type: application/json' \
   --data '{
-      "name": "NovoNome",
+      "name": "NewName",
       "phoneNumber": "8598989899"
   }
-'
 
 ```
 
@@ -221,15 +217,15 @@ Retorno -> Stauts 200
   "msg": "Contact updated",
   "contact": {
     "id": <ID>,
-    "name": "NovoNome",
+    "name": "NewName",
     "phoneNumber": "8598989899"
   }
 }
 
 ```
 
-### Deleter contato
-Endpoint responsável por deletar um contato pelo ID passado.
+### Delete Contact
+This endpoint is responsible for deleting a contact by the ID passed.
 
 ```
 curl --request DELETE \
